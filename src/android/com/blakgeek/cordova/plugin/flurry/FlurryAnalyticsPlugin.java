@@ -214,6 +214,12 @@ public class FlurryAnalyticsPlugin extends CordovaPlugin implements FlurryAgentL
 
             // app key is the only that is required.
             String appKey = args.getString(0);
+            if(appKey.isEmpty()) {
+                int appResId = cordova.getActivity().getResources().getIdentifier("flurry_tracking_id", "string", cordova.getActivity().getPackageName());
+                if (appResId != 0) {
+                    appKey = cordova.getActivity().getString(appResId);
+                }
+            }
             builder.withListener(this);
             builder.build(cordova.getActivity(), appKey);
             callbackContext.success();
